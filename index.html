@@ -3,573 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microbiology Semester 1 - Timetable</title>
+    <title>Microbiology Sem 1</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
+        <!-- Compact Header -->
         <header class="header">
-            <div class="header-content">
-                <div class="college-info">
-                    <h1>Shaheed Rajguru College</h1>
-                    <p>Applied Sciences for Women</p>
-                </div>
-                <div class="semester-info">
-                    <span class="semester-badge">Semester I</span>
-                    <h2>B.Sc(Hons) Microbiology</h2>
+            <div class="header-info">
+                <div class="semester-badge">Sem I - Microbiology</div>
+                <div class="datetime">
+                    <span id="currentTime"></span>
+                    <span id="currentDate"></span>
                 </div>
             </div>
-            <div class="current-date" id="currentDate"></div>
         </header>
 
-        <!-- Quick Info Cards -->
-        <section class="quick-info">
-            <div class="info-card">
-                <i class="fas fa-calendar-day"></i>
-                <div>
-                    <span class="info-label">Today</span>
-                    <span class="info-value" id="todayDay"></span>
-                </div>
-            </div>
-            <div class="info-card">
+        <!-- Current Class Alert (if active) -->
+        <div class="current-class-alert" id="currentClassAlert" style="display: none;">
+            <div class="alert-content">
                 <i class="fas fa-clock"></i>
-                <div>
-                    <span class="info-label">Current Time</span>
-                    <span class="info-value" id="currentTime"></span>
+                <div class="alert-text">
+                    <div class="alert-title">Current Class</div>
+                    <div class="alert-subject" id="alertSubject"></div>
+                    <div class="alert-details" id="alertDetails"></div>
                 </div>
+                <div class="alert-time" id="alertTime"></div>
             </div>
-            <div class="info-card">
-                <i class="fas fa-microscope"></i>
-                <div>
-                    <span class="info-label">Department</span>
-                    <span class="info-value">Microbiology</span>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- Timetable -->
+        <!-- Timetable Section -->
         <section class="timetable-section">
-            <h3 class="section-title">
-                <i class="fas fa-table"></i>
-                Weekly Schedule
-            </h3>
-            
-            <div class="timetable-container">
-                <div class="day-tabs">
-                    <button class="day-tab active" data-day="monday">Mon</button>
-                    <button class="day-tab" data-day="tuesday">Tue</button>
-                    <button class="day-tab" data-day="wednesday">Wed</button>
-                    <button class="day-tab" data-day="thursday">Thu</button>
-                    <button class="day-tab" data-day="friday">Fri</button>
-                    <button class="day-tab" data-day="saturday">Sat</button>
+            <div class="day-selector">
+                <button class="day-btn active" data-day="monday">Mon</button>
+                <button class="day-btn" data-day="tuesday">Tue</button>
+                <button class="day-btn" data-day="wednesday">Wed</button>
+                <button class="day-btn" data-day="thursday">Thu</button>
+                <button class="day-btn" data-day="friday">Fri</button>
+                <button class="day-btn" data-day="saturday">Sat</button>
+            </div>
+
+            <div class="schedule-container" id="scheduleContainer">
+                <!-- Monday Schedule -->
+                <div class="day-schedule active" id="monday">
+                    <div class="time-slot" data-time="09:00">
+                        <div class="time-badge">9:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="10:00">
+                        <div class="time-badge">10:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="11:00">
+                        <div class="time-badge">11:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC101</div>
+                            <div class="subject-name">Introduction to Microbial World</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pragya</span>
+                                <span class="room">CS LAB 2</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="12:00">
+                        <div class="time-badge">12:00 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC101</div>
+                            <div class="subject-name">Introduction to Microbial World</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pragya</span>
+                                <span class="room">CS LAB 2</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot lunch" data-time="13:00">
+                        <div class="time-badge">1:00 PM</div>
+                        <div class="class-card lunch">
+                            <div class="subject"><i class="fas fa-utensils"></i> Lunch Break</div>
+                            <div class="break-time">30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="13:30">
+                        <div class="time-badge">1:30 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC101</div>
+                            <div class="subject-name">Introduction to Microbial World</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Anjali</span>
+                                <span class="room">LT31</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="14:30">
+                        <div class="time-badge">2:30 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC102</div>
+                            <div class="subject-name">Basic Bacteriology</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pooja</span>
+                                <span class="room">LT12</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="15:30">
+                        <div class="time-badge">3:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="16:30">
+                        <div class="time-badge">4:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="schedule-content">
-                    <!-- Monday Schedule -->
-                    <div class="day-schedule active" id="monday">
-                        <div class="time-slot">
-                            <div class="time">9:00-10:00</div>
-                            <div class="subject-card vac">
-                                <div class="subject-name">VAC</div>
-                                <div class="subject-type">Vacant Period</div>
-                            </div>
+                <!-- Tuesday Schedule -->
+                <div class="day-schedule" id="tuesday">
+                    <div class="time-slot" data-time="09:00">
+                        <div class="time-badge">9:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
                         </div>
-                        <div class="time-slot">
-                            <div class="time">10:00-11:00</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="10:00">
+                        <div class="time-badge">10:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
                         </div>
-                        <div class="time-slot">
-                            <div class="time">11:00-12:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC101</div>
-                                <div class="subject-full">Introduction to the Microbial World</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pragya</span>
-                                    <span class="location">CS LAB 2</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">12:00-1:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC101</div>
-                                <div class="subject-full">Introduction to the Microbial World</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pragya</span>
-                                    <span class="location">CS LAB 2</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot lunch">
-                            <div class="time">1:00-1:30</div>
-                            <div class="subject-card lunch-break">
-                                <div class="subject-name">
-                                    <i class="fas fa-utensils"></i> Lunch Break
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">1:30-2:30</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC101</div>
-                                <div class="subject-full">Introduction to the Microbial World</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Anjali</span>
-                                    <span class="location">LT31</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">2:30-3:30</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC102</div>
-                                <div class="subject-full">Basic Bacteriology</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pooja</span>
-                                    <span class="location">LT12</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">3:30-4:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">4:30-5:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="11:00">
+                        <div class="time-badge">11:00 AM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC101 Practical</div>
+                            <div class="subject-name">Intro to Microbial World (Batch I)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pragya</span>
+                                <span class="room">Biolab 1</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Tuesday Schedule -->
-                    <div class="day-schedule" id="tuesday">
-                        <div class="time-slot">
-                            <div class="time">9:00-10:00</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">10:00-11:00</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">11:00-12:00</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC101 Pr</div>
-                                <div class="subject-full">Introduction to Microbial World (Batch I)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pragya / Prof. Rekha</span>
-                                    <span class="location">Biolab 1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">12:00-1:00</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC101 Pr</div>
-                                <div class="subject-full">Introduction to Microbial World (Batch I)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pragya / Prof. Rekha</span>
-                                    <span class="location">Biolab 1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot lunch">
-                            <div class="time">1:00-1:30</div>
-                            <div class="subject-card lunch-break">
-                                <div class="subject-name">
-                                    <i class="fas fa-utensils"></i> Lunch Break
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">1:30-2:30</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">GE I Pr</div>
-                                <div class="subject-full">General Elective Practical</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Anjali</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">2:30-3:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">3:30-4:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">4:30-5:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
+                    
+                    <div class="time-slot" data-time="12:00">
+                        <div class="time-badge">12:00 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC101 Practical</div>
+                            <div class="subject-name">Intro to Microbial World (Batch I)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pragya</span>
+                                <span class="room">Biolab 1</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Wednesday Schedule -->
-                    <div class="day-schedule" id="wednesday">
-                        <div class="time-slot">
-                            <div class="time">9:00-10:00</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
+                    
+                    <div class="time-slot lunch" data-time="13:00">
+                        <div class="time-badge">1:00 PM</div>
+                        <div class="class-card lunch">
+                            <div class="subject"><i class="fas fa-utensils"></i> Lunch Break</div>
+                            <div class="break-time">30 minutes</div>
                         </div>
-                        <div class="time-slot">
-                            <div class="time">10:00-11:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC103</div>
-                                <div class="subject-full">Biochemistry of Carbohydrates and Lipids</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Preeti</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">11:00-12:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">AECC (EVS)</div>
-                                <div class="subject-full">Environmental Studies</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Prof. Rekha</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">12:00-1:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">AECC (EVS)</div>
-                                <div class="subject-full">Environmental Studies</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Prof. Rekha</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot lunch">
-                            <div class="time">1:00-1:30</div>
-                            <div class="subject-card lunch-break">
-                                <div class="subject-name">
-                                    <i class="fas fa-utensils"></i> Lunch Break
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">1:30-2:30</div>
-                            <div class="subject-card sec">
-                                <div class="subject-name">SEC</div>
-                                <div class="subject-full">Skill Enhancement Course</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">2:30-3:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">3:30-4:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">4:30-5:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="13:30">
+                        <div class="time-badge">1:30 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">GE I Practical</div>
+                            <div class="subject-name">General Elective</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Anjali</span>
+                                <span class="room">Biolab II</span>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="time-slot" data-time="14:30">
+                        <div class="time-badge">2:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="15:30">
+                        <div class="time-badge">3:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="16:30">
+                        <div class="time-badge">4:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Thursday Schedule -->
-                    <div class="day-schedule" id="thursday">
-                        <div class="time-slot">
-                            <div class="time">9:00-10:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">GE I</div>
-                                <div class="subject-full">General Elective I</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Anjali</span>
-                                    <span class="location">LT31</span>
-                                </div>
-                            </div>
+                <!-- Wednesday Schedule -->
+                <div class="day-schedule" id="wednesday">
+                    <div class="time-slot" data-time="09:00">
+                        <div class="time-badge">9:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
                         </div>
-                        <div class="time-slot">
-                            <div class="time">10:00-11:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">GE I</div>
-                                <div class="subject-full">General Elective I</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Anjali</span>
-                                    <span class="location">LT31</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">11:00-12:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC102</div>
-                                <div class="subject-full">Basic Bacteriology</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pooja</span>
-                                    <span class="location">LT12</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">12:00-1:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC103</div>
-                                <div class="subject-full">Biochemistry of Carbohydrates and Lipids</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Preeti</span>
-                                    <span class="location">Biolab I</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot lunch">
-                            <div class="time">1:00-1:30</div>
-                            <div class="subject-card lunch-break">
-                                <div class="subject-name">
-                                    <i class="fas fa-utensils"></i> Lunch Break
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">1:30-2:30</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC102 Pr</div>
-                                <div class="subject-full">Basic Bacteriology (Batch I/II)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pooja / Dr. Anjali</span>
-                                    <span class="location">Biolab I</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">2:30-3:30</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC102 Pr</div>
-                                <div class="subject-full">Basic Bacteriology (Batch I/II)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Pooja / Dr. Anjali</span>
-                                    <span class="location">Biolab I</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">3:30-4:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">4:30-5:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="10:00">
+                        <div class="time-badge">10:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC103</div>
+                            <div class="subject-name">Biochemistry of Carbohydrates & Lipids</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Preeti</span>
+                                <span class="room">Biolab II</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Friday Schedule -->
-                    <div class="day-schedule" id="friday">
-                        <div class="time-slot">
-                            <div class="time">9:00-10:00</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">10:00-11:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC103</div>
-                                <div class="subject-full">Biochemistry of Carbohydrates and Lipids</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Preeti</span>
-                                    <span class="location">LT 31</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">11:00-12:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">MICROB-DSC102</div>
-                                <div class="subject-full">Basic Bacteriology</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Abhinav</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">12:00-1:00</div>
-                            <div class="subject-card theory">
-                                <div class="subject-name">AECC (EVS)</div>
-                                <div class="subject-full">Environmental Studies</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Prof. Rekha</span>
-                                    <span class="location">Biolab II</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot lunch">
-                            <div class="time">1:00-1:30</div>
-                            <div class="subject-card lunch-break">
-                                <div class="subject-name">
-                                    <i class="fas fa-utensils"></i> Lunch Break
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">1:30-2:30</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC103 Pr</div>
-                                <div class="subject-full">Biochemistry Practical (Batch II)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Preeti</span>
-                                    <span class="location">Biolab I</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">2:30-3:30</div>
-                            <div class="subject-card practical">
-                                <div class="subject-name">MICROB-DSC103 Pr</div>
-                                <div class="subject-full">Biochemistry Practical (Batch II)</div>
-                                <div class="subject-details">
-                                    <span class="faculty">Dr. Preeti</span>
-                                    <span class="location">Biolab I</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">3:30-4:30</div>
-                            <div class="subject-card vac">
-                                <div class="subject-name">VAC</div>
-                                <div class="subject-type">Vacant Period</div>
-                            </div>
-                        </div>
-                        <div class="time-slot">
-                            <div class="time">4:30-5:30</div>
-                            <div class="subject-card free">
-                                <div class="subject-name">Free Period</div>
+                    
+                    <div class="time-slot" data-time="11:00">
+                        <div class="time-badge">11:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">AECC (EVS)</div>
+                            <div class="subject-name">Environmental Studies</div>
+                            <div class="class-info">
+                                <span class="faculty">Prof. Rekha</span>
+                                <span class="room">Biolab II</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Saturday Schedule -->
-                    <div class="day-schedule" id="saturday">
-                        <div class="no-classes">
-                            <i class="fas fa-calendar-times"></i>
-                            <h3>No Classes Today</h3>
-                            <p>Enjoy your weekend!</p>
+                    
+                    <div class="time-slot" data-time="12:00">
+                        <div class="time-badge">12:00 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">AECC (EVS)</div>
+                            <div class="subject-name">Environmental Studies</div>
+                            <div class="class-info">
+                                <span class="faculty">Prof. Rekha</span>
+                                <span class="room">Biolab II</span>
+                            </div>
                         </div>
+                    </div>
+                    
+                    <div class="time-slot lunch" data-time="13:00">
+                        <div class="time-badge">1:00 PM</div>
+                        <div class="class-card lunch">
+                            <div class="subject"><i class="fas fa-utensils"></i> Lunch Break</div>
+                            <div class="break-time">30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="13:30">
+                        <div class="time-badge">1:30 PM</div>
+                        <div class="class-card sec">
+                            <div class="subject">SEC</div>
+                            <div class="subject-name">Skill Enhancement Course</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="14:30">
+                        <div class="time-badge">2:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="15:30">
+                        <div class="time-badge">3:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="16:30">
+                        <div class="time-badge">4:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thursday Schedule -->
+                <div class="day-schedule" id="thursday">
+                    <div class="time-slot" data-time="09:00">
+                        <div class="time-badge">9:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">GE I</div>
+                            <div class="subject-name">General Elective I</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Anjali</span>
+                                <span class="room">LT31</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="10:00">
+                        <div class="time-badge">10:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">GE I</div>
+                            <div class="subject-name">General Elective I</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Anjali</span>
+                                <span class="room">LT31</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="11:00">
+                        <div class="time-badge">11:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC102</div>
+                            <div class="subject-name">Basic Bacteriology</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pooja</span>
+                                <span class="room">LT12</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="12:00">
+                        <div class="time-badge">12:00 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC103</div>
+                            <div class="subject-name">Biochemistry of Carbohydrates & Lipids</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Preeti</span>
+                                <span class="room">Biolab I</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot lunch" data-time="13:00">
+                        <div class="time-badge">1:00 PM</div>
+                        <div class="class-card lunch">
+                            <div class="subject"><i class="fas fa-utensils"></i> Lunch Break</div>
+                            <div class="break-time">30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="13:30">
+                        <div class="time-badge">1:30 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC102 Practical</div>
+                            <div class="subject-name">Basic Bacteriology (Batch I/II)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pooja</span>
+                                <span class="room">Biolab I</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="14:30">
+                        <div class="time-badge">2:30 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC102 Practical</div>
+                            <div class="subject-name">Basic Bacteriology (Batch I/II)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Pooja</span>
+                                <span class="room">Biolab I</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="15:30">
+                        <div class="time-badge">3:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="16:30">
+                        <div class="time-badge">4:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friday Schedule -->
+                <div class="day-schedule" id="friday">
+                    <div class="time-slot" data-time="09:00">
+                        <div class="time-badge">9:00 AM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="10:00">
+                        <div class="time-badge">10:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC103</div>
+                            <div class="subject-name">Biochemistry of Carbohydrates & Lipids</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Preeti</span>
+                                <span class="room">LT 31</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="11:00">
+                        <div class="time-badge">11:00 AM</div>
+                        <div class="class-card theory">
+                            <div class="subject">MICROB-DSC102</div>
+                            <div class="subject-name">Basic Bacteriology</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Abhinav</span>
+                                <span class="room">Biolab II</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="12:00">
+                        <div class="time-badge">12:00 PM</div>
+                        <div class="class-card theory">
+                            <div class="subject">AECC (EVS)</div>
+                            <div class="subject-name">Environmental Studies</div>
+                            <div class="class-info">
+                                <span class="faculty">Prof. Rekha</span>
+                                <span class="room">Biolab II</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot lunch" data-time="13:00">
+                        <div class="time-badge">1:00 PM</div>
+                        <div class="class-card lunch">
+                            <div class="subject"><i class="fas fa-utensils"></i> Lunch Break</div>
+                            <div class="break-time">30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="13:30">
+                        <div class="time-badge">1:30 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC103 Practical</div>
+                            <div class="subject-name">Biochemistry Practical (Batch II)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Preeti</span>
+                                <span class="room">Biolab I</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="14:30">
+                        <div class="time-badge">2:30 PM</div>
+                        <div class="class-card practical">
+                            <div class="subject">MICROB-DSC103 Practical</div>
+                            <div class="subject-name">Biochemistry Practical (Batch II)</div>
+                            <div class="class-info">
+                                <span class="faculty">Dr. Preeti</span>
+                                <span class="room">Biolab I</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="15:30">
+                        <div class="time-badge">3:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot" data-time="16:30">
+                        <div class="time-badge">4:30 PM</div>
+                        <div class="class-card free">
+                            <div class="subject">Free Period</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saturday Schedule -->
+                <div class="day-schedule" id="saturday">
+                    <div class="weekend-message">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3>No Classes Today</h3>
+                        <p>Weekend Break!</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Subject Information -->
-        <section class="subjects-section">
-            <h3 class="section-title">
-                <i class="fas fa-book"></i>
-                Subject Information
-            </h3>
-            <div class="subjects-grid">
-                <div class="subject-info-card">
-                    <div class="subject-code">MICROB-DSC101</div>
-                    <div class="subject-title">Introduction to the Microbial World</div>
-                    <div class="subject-type-badge theory">Theory & Practical</div>
-                </div>
-                <div class="subject-info-card">
-                    <div class="subject-code">MICROB-DSC102</div>
-                    <div class="subject-title">Basic Bacteriology</div>
-                    <div class="subject-type-badge theory">Theory & Practical</div>
-                </div>
-                <div class="subject-info-card">
-                    <div class="subject-code">MICROB-DSC103</div>
-                    <div class="subject-title">Biochemistry of Carbohydrates and Lipids</div>
-                    <div class="subject-type-badge theory">Theory & Practical</div>
-                </div>
-                <div class="subject-info-card">
-                    <div class="subject-code">MICROB-GE-1</div>
-                    <div class="subject-title">Introduction and Scope of Microbiology</div>
-                    <div class="subject-type-badge ge">General Elective</div>
-                </div>
-                <div class="subject-info-card">
-                    <div class="subject-code">SEC 1</div>
-                    <div class="subject-title">Mushroom Culture and Technology I</div>
-                    <div class="subject-type-badge sec">Skill Enhancement</div>
+        <!-- Bottom Info (Moved to bottom as requested) -->
+        <div class="bottom-info">
+            <div class="quick-info">
+                <h4><i class="fas fa-book"></i> Subjects</h4>
+                <div class="subject-list">
+                    <div class="subject-item">
+                        <strong>DSC101:</strong> Introduction to Microbial World
+                    </div>
+                    <div class="subject-item">
+                        <strong>DSC102:</strong> Basic Bacteriology
+                    </div>
+                    <div class="subject-item">
+                        <strong>DSC103:</strong> Biochemistry of Carbohydrates & Lipids
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Faculty Information -->
-        <section class="faculty-section">
-            <h3 class="section-title">
-                <i class="fas fa-user-graduate"></i>
-                Faculty Information
-            </h3>
-            <div class="faculty-grid">
-                <div class="faculty-card">
-                    <div class="faculty-initial">RM</div>
-                    <div class="faculty-name">Prof. Rekha</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">RS</div>
-                    <div class="faculty-name">Dr. Richa</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">PV</div>
-                    <div class="faculty-name">Dr. Preeti</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">PB</div>
-                    <div class="faculty-name">Dr. Pooja</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">AP</div>
-                    <div class="faculty-name">Dr. Abhinav</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">P</div>
-                    <div class="faculty-name">Dr. Pragya</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">PA</div>
-                    <div class="faculty-name">Dr. Pallavi</div>
-                </div>
-                <div class="faculty-card">
-                    <div class="faculty-initial">A</div>
-                    <div class="faculty-name">Dr. Anjali</div>
+            <div class="faculty-info">
+                <h4><i class="fas fa-user-graduate"></i> Faculty</h4>
+                <div class="faculty-list">
+                    <div class="faculty-item">Dr. Pragya • Dr. Anjali • Dr. Pooja</div>
+                    <div class="faculty-item">Dr. Preeti • Dr. Abhinav • Prof. Rekha</div>
                 </div>
             </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Effective from: 01-08-2025</p>
-            <p>No change in timetable is possible without the permission of the Principal</p>
-        </footer>
+        </div>
     </div>
 
     <script src="script.js"></script>
