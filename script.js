@@ -1,31 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the application
     initializeApp();
     
     function initializeApp() {
         updateDateTime();
         setupTabs();
         highlightCurrentDay();
+        checkCurrentClass();
+        autoScrollToCurrentClass();
         
-        // Update time every minute
-        setInterval(updateDateTime, 60000);
+        // Update every 30 seconds for better performance
+        setInterval(() => {
+            updateDateTime();
+            checkCurrentClass();
+            autoScrollToCurrentClass();
+        }, 30000);
     }
     
     function updateDateTime() {
         const now = new Date();
-        
-        // Update current date
-        const dateOptions = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-IN', dateOptions);
-        
-        // Update current day
-        const dayOptions = { weekday: 'long' };
-        document.getElementById('todayDay').textContent = now.toLocaleDateString('en-IN', dayOptions);
         
         // Update current time
         const timeOptions = { 
@@ -34,41 +26,47 @@ document.addEventListener('DOMContentLoaded', function() {
             hour12: true 
         };
         document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-IN', timeOptions);
+        
+        // Update current date  
+        const dateOptions = { 
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short'
+        };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-IN', dateOptions);
     }
     
     function setupTabs() {
-        const tabs = document.querySelectorAll('.day-tab');
+        const tabs = document.querySelectorAll('.day-btn');
         const schedules = document.querySelectorAll('.day-schedule');
         
         tabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 const targetDay = this.getAttribute('data-day');
                 
-                // Remove active class from all tabs and schedules
+                // Remove active class
                 tabs.forEach(t => t.classList.remove('active'));
                 schedules.forEach(s => s.classList.remove('active'));
                 
-                // Add active class to clicked tab and corresponding schedule
+                // Add active class
                 this.classList.add('active');
                 document.getElementById(targetDay).classList.add('active');
                 
-                // Add smooth scroll to top of timetable
-                document.querySelector('.timetable-container').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
+                // Check current class for selected day
+                checkCurrentClass();
+                autoScrollToCurrentClass();
             });
         });
     }
     
     function highlightCurrentDay() {
         const now = new Date();
-        const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        const currentDay = now.getDay();
         
         const dayMapping = {
             0: null, // Sunday
             1: 'monday',
-            2: 'tuesday',
+            2: 'tuesday', 
             3: 'wednesday',
             4: 'thursday',
             5: 'friday',
@@ -83,119 +81,164 @@ document.addEventListener('DOMContentLoaded', function() {
                 todayTab.classList.add('today');
                 
                 // Auto-switch to current day
-                const allTabs = document.querySelectorAll('.day-tab');
-                const allSchedules = document.querySelectorAll('.day-schedule');
-                
-                allTabs.forEach(tab => tab.classList.remove('active'));
-                allSchedules.forEach(schedule => schedule.classList.remove('active'));
+                document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.day-schedule').forEach(schedule => schedule.classList.remove('active'));
                 
                 todayTab.classList.add('active');
                 document.getElementById(todayKey).classList.add('active');
             }
         }
-        
-        // Highlight current time slot
-        highlightCurrentTimeSlot();
     }
     
-    function highlightCurrentTimeSlot() {
+    function checkCurrentClass() {
         const now = new Date();
         const currentHour = now.getHours();
-        const currentMinutes = now.getMinutes();
-        const currentTime = currentHour * 60 + currentMinutes; // Convert to minutes
+        const currentMinute = now.getMinutes();
+        const currentTime = currentHour * 60 + currentMinute;
         
-        // Define time slots in minutes from midnight
-        const timeSlots = [
-            { start: 9 * 60, end: 10 * 60, class: 'slot-1' },      // 9:00-10:00
-            { start: 10 * 60, end: 11 * 60, class: 'slot-2' },     // 10:00-11:00
-            { start: 11 * 60, end: 12 * 60, class: 'slot-3' },     // 11:00-12:00
-            { start: 12 * 60, end: 13 * 60, class: 'slot-4' },     // 12:00-1:00
-            { start: 13 * 60, end: 13 * 60 + 30, class: 'lunch' }, // 1:00-1:30 (Lunch)
-            { start: 13 * 60 + 30, end: 14 * 60 + 30, class: 'slot-5' }, // 1:30-2:30
-            { start: 14 * 60 + 30, end: 15 * 60 + 30, class: 'slot-6' }, // 2:30-3:30
-            { start: 15 * 60 + 30, end: 16 * 60 + 30, class: 'slot-7' }, // 3:30-4:30
-            { start: 16 * 60 + 30, end: 17 * 60 + 30, class: 'slot-8' }  // 4:30-5:30
-        ];
-        
-        // Remove previous highlighting
+        // Clear previous current class highlighting
         document.querySelectorAll('.time-slot.current').forEach(slot => {
             slot.classList.remove('current');
         });
         
-        // Find and highlight current time slot
+        // Time slots in minutes from midnight
+        const timeSlots = [
+            { start: 9 * 60, end: 10 * 60, time: '09:00' },
+            { start: 10 * 60, end: 11 * 60, time: '10:00' },
+            { start: 11 * 60, end: 12 * 60, time: '11:00' },
+            { start: 12 * 60, end: 13 * 60, time: '12:00' },
+            { start: 13 * 60, end: 13 * 60 + 30, time: '13:00' },
+            { start: 13 * 60 + 30, end: 14 * 60 + 30, time: '13:30' },
+            { start: 14 * 60 + 30, end: 15 * 60 + 30, time: '14:30' },
+            { start: 15 * 60 + 30, end: 16 * 60 + 30, time: '15:30' },
+            { start: 16 * 60 + 30, end: 17 * 60 + 30, time: '16:30' }
+        ];
+        
         const currentSlot = timeSlots.find(slot => 
             currentTime >= slot.start && currentTime < slot.end
         );
         
-        if (currentSlot) {
-            const activeSchedule = document.querySelector('.day-schedule.active');
-            if (activeSchedule) {
-                const timeSlots = activeSchedule.querySelectorAll('.time-slot');
-                timeSlots.forEach((slot, index) => {
-                    if (index === timeSlots.findIndex(s => 
-                        s.querySelector('.time').textContent.includes(getTimeSlotText(currentSlot))
-                    )) {
-                        slot.classList.add('current');
-                        // Add pulsing effect to current time slot
-                        slot.style.animation = 'pulse 2s infinite';
-                    }
+        const activeSchedule = document.querySelector('.day-schedule.active');
+        const alertDiv = document.getElementById('currentClassAlert');
+        
+        if (currentSlot && activeSchedule) {
+            const currentTimeSlot = activeSchedule.querySelector(`[data-time="${currentSlot.time}"]`);
+            
+            if (currentTimeSlot) {
+                currentTimeSlot.classList.add('current');
+                
+                // Show current class alert
+                const classCard = currentTimeSlot.querySelector('.class-card');
+                const subject = classCard.querySelector('.subject').textContent;
+                const subjectName = classCard.querySelector('.subject-name')?.textContent || '';
+                const faculty = classCard.querySelector('.faculty')?.textContent || '';
+                const room = classCard.querySelector('.room')?.textContent || '';
+                
+                if (subject && subject !== 'Free Period') {
+                    document.getElementById('alertSubject').textContent = subject;
+                    document.getElementById('alertDetails').textContent = `${faculty} • ${room}`;
+                    document.getElementById('alertTime').textContent = getTimeRemaining(currentSlot.end);
+                    alertDiv.style.display = 'block';
+                } else {
+                    alertDiv.style.display = 'none';
+                }
+            }
+        } else {
+            alertDiv.style.display = 'none';
+        }
+    }
+    
+    function getTimeRemaining(endTime) {
+        const now = new Date();
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+        const remaining = endTime - currentTime;
+        
+        if (remaining <= 0) return 'Ended';
+        if (remaining < 60) return `${remaining}m left`;
+        
+        const hours = Math.floor(remaining / 60);
+        const minutes = remaining % 60;
+        return minutes > 0 ? `${hours}h ${minutes}m left` : `${hours}h left`;
+    }
+    
+    function autoScrollToCurrentClass() {
+        const currentTimeSlot = document.querySelector('.time-slot.current');
+        
+        if (currentTimeSlot) {
+            // Add a small delay to ensure DOM is updated
+            setTimeout(() => {
+                const container = document.querySelector('.schedule-container');
+                const containerTop = container.offsetTop;
+                const slotTop = currentTimeSlot.offsetTop;
+                const slotHeight = currentTimeSlot.offsetHeight;
+                
+                // Calculate scroll position to center the current class
+                const scrollPosition = slotTop - containerTop - (window.innerHeight / 2) + (slotHeight / 2);
+                
+                window.scrollTo({
+                    top: Math.max(0, scrollPosition),
+                    behavior: 'smooth'
                 });
+            }, 100);
+        } else {
+            // If no current class, scroll to show upcoming classes
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            // If it's before 9 AM, stay at top
+            if (currentTime < 9 * 60) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            // If it's after classes, scroll to show last few classes
+            if (currentTime > 17 * 60 + 30) {
+                const activeSchedule = document.querySelector('.day-schedule.active');
+                if (activeSchedule) {
+                    const timeSlots = activeSchedule.querySelectorAll('.time-slot');
+                    const lastSlot = timeSlots[timeSlots.length - 1];
+                    if (lastSlot) {
+                        lastSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+                return;
+            }
+            
+            // Find next upcoming class
+            const timeSlots = [
+                { start: 9 * 60, time: '09:00' },
+                { start: 10 * 60, time: '10:00' },
+                { start: 11 * 60, time: '11:00' },
+                { start: 12 * 60, time: '12:00' },
+                { start: 13 * 60, time: '13:00' },
+                { start: 13 * 60 + 30, time: '13:30' },
+                { start: 14 * 60 + 30, time: '14:30' },
+                { start: 15 * 60 + 30, time: '15:30' },
+                { start: 16 * 60 + 30, time: '16:30' }
+            ];
+            
+            const nextSlot = timeSlots.find(slot => currentTime < slot.start);
+            
+            if (nextSlot) {
+                const activeSchedule = document.querySelector('.day-schedule.active');
+                const nextTimeSlot = activeSchedule?.querySelector(`[data-time="${nextSlot.time}"]`);
+                
+                if (nextTimeSlot) {
+                    nextTimeSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         }
     }
     
-    function getTimeSlotText(slot) {
-        const times = {
-            'slot-1': '9:00-10:00',
-            'slot-2': '10:00-11:00',
-            'slot-3': '11:00-12:00',
-            'slot-4': '12:00-1:00',
-            'lunch': '1:00-1:30',
-            'slot-5': '1:30-2:30',
-            'slot-6': '2:30-3:30',
-            'slot-7': '3:30-4:30',
-            'slot-8': '4:30-5:30'
-        };
-        return times[slot.class] || '';
-    }
-    
-    // Add pulse animation for current time slot
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
-        }
-        
-        .time-slot.current {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .time-slot.current .subject-card {
-            border: 2px solid #667eea;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .time-slot.current .time {
-            background: linear-gradient(135deg, #4fd1c7, #38b2ac);
-            box-shadow: 0 4px 15px rgba(56, 178, 172, 0.4);
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Add swipe functionality for mobile
+    // Add swipe functionality for mobile navigation
     let touchStartX = 0;
     let touchEndX = 0;
     
-    const timetableContainer = document.querySelector('.timetable-container');
-    
-    timetableContainer.addEventListener('touchstart', function(e) {
+    document.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
     });
     
-    timetableContainer.addEventListener('touchend', function(e) {
+    document.addEventListener('touchend', function(e) {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     });
@@ -205,61 +248,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const difference = touchStartX - touchEndX;
         
         if (Math.abs(difference) > swipeThreshold) {
-            const currentTab = document.querySelector('.day-tab.active');
-            const tabs = Array.from(document.querySelectorAll('.day-tab'));
+            const currentTab = document.querySelector('.day-btn.active');
+            const tabs = Array.from(document.querySelectorAll('.day-btn'));
             const currentIndex = tabs.indexOf(currentTab);
             
             let newIndex;
-            if (difference > 0) {
-                // Swipe left - next day
-                newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-            } else {
-                // Swipe right - previous day
-                newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+            if (difference > 0 && currentIndex < tabs.length - 1) {
+                newIndex = currentIndex + 1;
+            } else if (difference < 0 && currentIndex > 0) {
+                newIndex = currentIndex - 1;
             }
             
-            tabs[newIndex].click();
+            if (newIndex !== undefined) {
+                tabs[newIndex].click();
+            }
         }
     }
     
-    // Add loading animation
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease-in-out';
-        document.body.style.opacity = '1';
-    }, 100);
-    
-    // Service Worker for offline functionality (optional)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            }, function(err) {
-                console.log('ServiceWorker registration failed');
-            });
-        });
-    }
-});
-
-// Add smooth scrolling for better UX
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+    // Optimize performance by throttling scroll events
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
+        scrollTimeout = setTimeout(() => {
+            // Any scroll-related functionality can go here
+        }, 100);
     });
-});
-
-// Add keyboard navigation
-document.addEventListener('keydown', function(e) {
-    const tabs = document.querySelectorAll('.day-tab');
-    const activeTab = document.querySelector('.day-tab.active');
-    const currentIndex = Array.from(tabs).indexOf(activeTab);
-    
-    if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        tabs[currentIndex - 1].click();
-    } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
-        tabs[currentIndex + 1].click();
-    }
 });
